@@ -18,6 +18,7 @@
 	</dependencies>
 	
 	<build>
+		<directory>F:\TeamCity\buildAgent</directory>
 		<plugins>
 			<plugin>
 				<groupId>org.owasp</groupId>

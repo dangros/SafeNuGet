@@ -68,8 +68,8 @@ function cleanString([string]$string){
 }
 
 ### BEGIN SCRIPT
-[string]$inputPath = $args[0]
-[string]$dcPath = 'dc\bin\dependency-check.bat'
+[string]$inputPath = '.\Lambchop' #$args[0]
+[string]$dcPath = '.\dc\bin\dependency-check.bat'
 [string]$xmlPath = '.\output.xml'
 
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath

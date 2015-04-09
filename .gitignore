@@ -219,3 +219,4 @@ pip-log.txt
 nuget/*.nupkg
 PacMon/dc/data/cve.2.9.h2.db
 PacMon/output.html
+PacMon/output.xml

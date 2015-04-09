@@ -18,7 +18,7 @@
 	</dependencies>
 	
 	<build>
-		<directory>F:\TeamCity\buildAgent</directory>
+		<directory>${basedir}/../</directory>
 		<plugins>
 			<plugin>
 				<groupId>org.owasp</groupId>

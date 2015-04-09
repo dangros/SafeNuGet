@@ -68,13 +68,21 @@ function cleanString([string]$string){
 }
 
 ### BEGIN SCRIPT
-
 [string]$inputPath = $args[0]
+[string]$dcPath = 'dc\bin\dependency-check.bat'
+[string]$xmlPath = '.\output.xml'
 
-[xml]$xml = Get-Content $inputPath
+[string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
+[string]$deleteCommand = 'DEL {0}' -f $xmlPath
+
+Invoke-Expression $checkCommand
+
+[xml]$xml = Get-Content $xmlPath
 
 $dependencies = $xml.analysis.dependencies.dependency
 
 parseDependencies($dependencies)
+
+Invoke-Expression $deleteCommand
 
 ### END SCRIPT

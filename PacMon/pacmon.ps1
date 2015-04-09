@@ -77,7 +77,7 @@ function Get-ScriptDirectory
 ### BEGIN SCRIPT
 [string]$basePath = Get-ScriptDirectory
 [string]$inputPath = '{0}\Lambchop' -f $basePath #$args[0]
-[string]$dcPath = '{0}\dc\bin\dependency-check.bat' -f $basePath
+[string]$dcPath = '{0}\dc\scripts\dependency-check.bat' -f $basePath
 [string]$xmlPath = '{0}\output.xml' -f $basePath
 
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath

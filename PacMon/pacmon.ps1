@@ -80,7 +80,7 @@ function Get-ScriptDirectory
 [string]$dcPath = '{0}\dc\bin\dependency-check.bat' -f $basePath
 [string]$xmlPath = '{0}\output.xml' -f $basePath
 
-[string]$checkCommand = '{0}' # -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
+[string]$checkCommand = $dcPath # '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
 [string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
 echo $checkCommand

@@ -76,6 +76,7 @@ function cleanString([string]$string){
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
 [string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
+echo $checkCommand
 cmd.exe /C $checkCommand
 
 [xml]$xml = Get-Content $xmlPath

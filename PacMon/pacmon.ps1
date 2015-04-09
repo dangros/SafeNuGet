@@ -67,8 +67,15 @@ function cleanString([string]$string){
 	$string
 }
 
+#http://stackoverflow.com/questions/1183183/path-of-currently-executing-powershell-script
+function Get-ScriptDirectory
+{
+	$Invocation = (Get-Variable MyInvocation -Scope 1).Value
+	Split-Path $Invocation.MyCommand.Path
+}
+
 ### BEGIN SCRIPT
-[string]$basePath = '.\PacMon'
+[string]$basePath = Get-ScriptDirectory
 [string]$inputPath = '{0}\Lambchop' -f $basePath #$args[0]
 [string]$dcPath = '{0}\dc\bin\dependency-check.bat' -f $basePath
 [string]$xmlPath = '{0}\output.xml' -f $basePath

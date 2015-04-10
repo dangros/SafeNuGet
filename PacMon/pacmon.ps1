@@ -124,6 +124,7 @@ if (Test-Path $xmlPath) {
 
 if (!$xml.analysis) {
 	Write-Error "XML contains no analysis"
+	Invoke-Expression $deleteCommand
 	exit(1)
 }
 

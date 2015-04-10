@@ -101,12 +101,14 @@ function Set-PSConsole {
 [string]$basePath = Get-ScriptDirectory
 [string]$inputPath = '{0}\Lambchop' -f $basePath #$args[0]
 [string]$dcPath = '{0}\dc\scripts\dependency-check.bat' -f $basePath
-[string]$xmlPath = 'output.xml'
-[string]$htmlPath = 'vulnerabilities.html'
+[string]$xmlFilename = 'output.xml'
+[string]$xmlPath = '{0}\{1}' -f $basePath, $xmlFilename
+[string]$htmlFilename = 'vulnerabilities.html'
+[string]$htmlPath = '{0}\{1}' -f $basePath, $htmlFilename
 
-[string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
-[string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlPath
-[string]$deleteCommand = 'DEL {0}' -f $xmlPath
+[string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlFilename
+[string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlFilename
+[string]$deleteCommand = 'DEL {0}' -f $xmlFilename
 
 Write-Output ("Executing cmd.exe /C {0}" -f $checkCommand)
 cmd.exe /C $checkCommand
@@ -121,7 +123,7 @@ if (Test-Path $xmlPath) {
 [xml]$xml = Get-Content $xmlPath	
 
 if (!$xml.analysis) {
-	Write-Error ("XML contains no analysis" -f $xmlPath)
+	Write-Error "XML contains no analysis"
 	exit(1)
 }
 
@@ -134,7 +136,7 @@ parseDependencies $dependencies
 #Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
-	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlPath)
+	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlFilename)
 	cmd.exe /C $artifactCommand
 	exit(1)
 }

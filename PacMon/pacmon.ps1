@@ -133,7 +133,7 @@ Set-PSConsole
 
 parseDependencies $dependencies
 
-#Invoke-Expression $deleteCommand
+Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
 	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlFilename)

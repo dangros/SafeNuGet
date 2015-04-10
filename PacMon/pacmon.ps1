@@ -101,21 +101,17 @@ function Set-PSConsole {
 [string]$basePath = Get-ScriptDirectory
 [string]$inputPath = '{0}\Lambchop' -f $basePath #$args[0]
 [string]$dcPath = '{0}\dc\scripts\dependency-check.bat' -f $basePath
-[string]$xmlPath = '{0}\output.xml' -f $basePath
-[string]$htmlPath = '{0}\vulnerabilities.html' -f $basePath
+[string]$xmlPath = 'output.xml'
+[string]$htmlPath = 'vulnerabilities.html'
 
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
 [string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlPath
 [string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
-Set-PSConsole
-
 Write-Output ("Executing cmd.exe /C {0}" -f $checkCommand)
 cmd.exe /C $checkCommand
 
-Out-File $xmlPath # For debugging purposes
-
-[xml]$xml = Get-Content $xmlPath
+[xml]$xml = Get-Content $xmlPath	
 
 if (!$xml.analysis) {
 	Write-Error ("XML contains no analysis" -f $xmlPath)
@@ -123,6 +119,8 @@ if (!$xml.analysis) {
 }
 
 $dependencies = $xml.analysis.dependencies.dependency
+
+Set-PSConsole
 
 parseDependencies $dependencies
 

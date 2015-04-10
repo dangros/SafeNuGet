@@ -110,10 +110,10 @@ function Set-PSConsole {
 
 Set-PSConsole
 
-if (Test-Path $xmlPath) {
+if (Test-Path $inputPath) {
 	Write-Output ("Analyzing path: {0}" -f $inputPath)
 } else {
-	Write-Output ("Path not found: '{0}'" -f $xmlPath)
+	Write-Output ("Path not found: '{0}'" -f $inputPath)
 	exit(1)
 }
 

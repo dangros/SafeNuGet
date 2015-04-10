@@ -64,7 +64,8 @@ set BASEDIR=%~dp0\..
 :repoSetup
 set REPO=
 
-if "%JAVACMD%"=="" set JAVACMD="F:\TeamCity\buildAgent\bin\..\..\jre\bin\java.exe"
+if "%java%"=="" set java="F:\TeamCity\buildAgent\bin\..\..\jre\bin\java.exe"
+if "%JAVACMD%"=="" set JAVACMD=java 
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 
@@ -78,7 +79,7 @@ if NOT "%CLASSPATH_PREFIX%" == "" set CLASSPATH=%CLASSPATH_PREFIX%;%CLASSPATH%
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
 
-%JAVACMD% %JAVA_OPTS% -classpath %CLASSPATH% -Dapp.name="dependency-check" -Dapp.repo="%REPO%" -Dapp.home="%BASEDIR%" -Dbasedir="%BASEDIR%" org.owasp.dependencycheck.App %CMD_LINE_ARGS%
+%JAVACMD% %JAVA_OPTS%  -classpath %CLASSPATH% -Dapp.name="dependency-check" -Dapp.repo="%REPO%" -Dapp.home="%BASEDIR%" -Dbasedir="%BASEDIR%" org.owasp.dependencycheck.App %CMD_LINE_ARGS%
 if %ERRORLEVEL% NEQ 0 goto error
 goto end
 

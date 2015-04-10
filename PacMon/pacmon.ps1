@@ -110,25 +110,17 @@ function Set-PSConsole {
 
 Set-PSConsole
 
-if (Test-Path $inputPath) {
-	Write-Output ("Analyzing path: {0}" -f $inputPath)
-} else {
-	Write-Output ("Path not found: {0}" -f $inputPath)
-	exit(1)
-}
-
+Write-Output ("Executing cmd.exe /C {0}" -f $checkCommand)
 cmd.exe /C $checkCommand
-
-if (Test-Path $xmlPath) {
-	Write-Output ("Parsing XML output: {0}" -f $xmlPath)
-} else {
-	Write-Output ("XML output not found: {0}" -f $xmlPath)
-	exit(1)
-}
 
 Out-File $xmlPath # For debugging purposes
 
 [xml]$xml = Get-Content $xmlPath
+
+if (!$xml.analysis) {
+	Write-Error ("XML contains no analysis" -f $xmlPath)
+	exit(1)
+}
 
 $dependencies = $xml.analysis.dependencies.dependency
 

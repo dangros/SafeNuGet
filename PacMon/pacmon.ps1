@@ -111,6 +111,13 @@ function Set-PSConsole {
 Write-Output ("Executing cmd.exe /C {0}" -f $checkCommand)
 cmd.exe /C $checkCommand
 
+if (Test-Path $xmlPath) {
+	Write-Output ("Parsing XML output: {0}" -f $xmlPath)
+} else {
+	Write-Error ("XML output not found: {0}" -f $xmlPath)
+	exit(1)
+}
+
 [xml]$xml = Get-Content $xmlPath	
 
 if (!$xml.analysis) {
@@ -124,7 +131,7 @@ Set-PSConsole
 
 parseDependencies $dependencies
 
-Invoke-Expression $deleteCommand
+#Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
 	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlPath)

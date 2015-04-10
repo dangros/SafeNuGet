@@ -40,6 +40,16 @@ function parseVulnerability([string]$name, $vulnerability){
 	errorTest $name $error
 }
 
+function hasVulnerability($dependencies) {
+	$vulnerabilityFound = $FALSE
+	Foreach ($dependency IN $dependencies) {
+		if ($dependency.vulnerabilities) {
+			$vulnerabilityFound = $TRUE
+		}
+	}
+	$vulnerabilityFound
+}
+
 function startTest([string]$name){
 	[string]$formattedOutput = "##teamcity[testStarted name='{0}']" -f $name
 	Write-Output $formattedOutput
@@ -74,6 +84,18 @@ function Get-ScriptDirectory
 	Split-Path $Invocation.MyCommand.Path
 }
 
+#https://confluence.jetbrains.com/display/TCD9/PowerShell
+function Set-PSConsole {
+	if (Test-Path env:TEAMCITY_VERSION) {
+		try {
+			$rawUI = (Get-Host).UI.RawUI
+			$m = $rawUI.MaxPhysicalWindowSize.Width
+			$rawUI.BufferSize = New-Object Management.Automation.Host.Size ([Math]::max($m, 500), $rawUI.BufferSize.Height)
+			$rawUI.WindowSize = New-Object Management.Automation.Host.Size ($m, $rawUI.WindowSize.Height)
+		} catch {}
+	}
+}
+
 ### BEGIN SCRIPT
 
 [string]$basePath = Get-ScriptDirectory
@@ -84,14 +106,22 @@ function Get-ScriptDirectory
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
 [string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
+Set-PSConsole
+
 cmd.exe /C $checkCommand
 
 [xml]$xml = Get-Content $xmlPath
 
 $dependencies = $xml.analysis.dependencies.dependency
 
-parseDependencies($dependencies)
+parseDependencies $dependencies
 
 Invoke-Expression $deleteCommand
+
+if (hasVulnerability $dependencies) {
+	exit(1)
+} else {
+	exit(0)
+}
 
 ### END SCRIPT

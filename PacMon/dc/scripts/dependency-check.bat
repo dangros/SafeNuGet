@@ -1,7 +1,5 @@
 @ECHO OFF
 
-SET TC_JAVA_PATH="F:\TeamCity\buildAgent\bin\..\..\jre\bin\java.exe"
-
 @REM
 @REM Copyright (c) 2012-2013 Jeremy Long.  All rights reserved.
 @REM
@@ -66,8 +64,7 @@ set BASEDIR=%~dp0\..
 :repoSetup
 set REPO=
 
-if "%java%"=="" set java=TC_JAVA_PATH
-if "%JAVACMD%"=="" set JAVACMD=java
+if "%JAVACMD%"=="" set JAVACMD="F:\TeamCity\buildAgent\bin\..\..\jre\bin\java.exe"
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 

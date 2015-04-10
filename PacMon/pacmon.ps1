@@ -112,6 +112,11 @@ Set-PSConsole
 
 cmd.exe /C $checkCommand
 
+if (!(Test-Path $xmlPath)) {
+	Write-Output ("XML output not found at '{0}'" -f $xmlPath)
+	exit(1)
+}
+
 [xml]$xml = Get-Content $xmlPath
 
 $dependencies = $xml.analysis.dependencies.dependency

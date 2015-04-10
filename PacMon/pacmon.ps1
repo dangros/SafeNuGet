@@ -110,10 +110,19 @@ function Set-PSConsole {
 
 Set-PSConsole
 
+if (Test-Path $xmlPath) {
+	Write-Output ("Analyzing path: {0}" -f $inputPath)
+} else {
+	Write-Output ("Path not found: '{0}'" -f $xmlPath)
+	exit(1)
+}
+
 cmd.exe /C $checkCommand
 
-if (!(Test-Path $xmlPath)) {
-	Write-Output ("XML output not found at '{0}'" -f $xmlPath)
+if (Test-Path $xmlPath) {
+	Write-Output ("Parsing XML output: {0}" -f $xmlPath)
+} else {
+	Write-Output ("XML output not found: '{0}'" -f $xmlPath)
 	exit(1)
 }
 

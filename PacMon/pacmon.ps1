@@ -113,7 +113,7 @@ Set-PSConsole
 if (Test-Path $inputPath) {
 	Write-Output ("Analyzing path: {0}" -f $inputPath)
 } else {
-	Write-Output ("Path not found: '{0}'" -f $inputPath)
+	Write-Output ("Path not found: {0}" -f $inputPath)
 	exit(1)
 }
 
@@ -122,9 +122,11 @@ cmd.exe /C $checkCommand
 if (Test-Path $xmlPath) {
 	Write-Output ("Parsing XML output: {0}" -f $xmlPath)
 } else {
-	Write-Output ("XML output not found: '{0}'" -f $xmlPath)
+	Write-Output ("XML output not found: {0}" -f $xmlPath)
 	exit(1)
 }
+
+Out-File $xmlPath # For debugging purposes
 
 [xml]$xml = Get-Content $xmlPath
 
@@ -135,11 +137,11 @@ parseDependencies $dependencies
 Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
-	Write-Output ("Vulnerability found -- generating report artifact: '{0}'" -f $htmlPath)
+	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlPath)
 	cmd.exe /C $artifactCommand
 	exit(1)
-} else {
-	exit(0)
 }
+
+exit(0)
 
 ### END SCRIPT

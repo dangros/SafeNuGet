@@ -106,9 +106,9 @@ function Set-PSConsole {
 [string]$htmlFilename = 'vulnerabilities.html'
 [string]$htmlPath = '{0}\{1}' -f $basePath, $htmlFilename
 
-[string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlFilename
-[string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlFilename
-[string]$deleteCommand = 'DEL {0}' -f $xmlFilename
+[string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
+[string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlPath
+[string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
 Write-Output ("Executing cmd.exe /C {0}" -f $checkCommand)
 cmd.exe /C $checkCommand

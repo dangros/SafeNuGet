@@ -124,17 +124,23 @@ if (Test-Path $xmlPath) {
 
 if (!$xml.analysis) {
 	Write-Error "XML contains no analysis"
-	Invoke-Expression $deleteCommand
+	#Invoke-Expression $deleteCommand
 	exit(1)
 }
 
 $dependencies = $xml.analysis.dependencies.dependency
 
+if (!$dependencies) {
+	Write-Error "Analysis contains no dependencies"
+	#Invoke-Expression $deleteCommand
+	exit(0)
+}
+
 Set-PSConsole
 
 parseDependencies $dependencies
 
-Invoke-Expression $deleteCommand
+#Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
 	Write-Output ("Vulnerability found -- generating report artifact: {0}" -f $htmlFilename)

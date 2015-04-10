@@ -1,0 +1,4 @@
+<Configuration>
+	<SourcePath>.\Lambchop</Source>
+	<JavaPath>java</Java>
+</Configuration>

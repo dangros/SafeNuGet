@@ -1,4 +1,4 @@
-# PacMon - Dependency Check XML Parser for TeamCity
+# PacMon - Dependency Check Runner for TeamCity
 
 function parseDependencies($dependencies) {
 	Foreach ($dependency IN $dependencies) {
@@ -102,8 +102,10 @@ function Set-PSConsole {
 [string]$inputPath = '{0}\Lambchop' -f $basePath #$args[0]
 [string]$dcPath = '{0}\dc\scripts\dependency-check.bat' -f $basePath
 [string]$xmlPath = '{0}\output.xml' -f $basePath
+[string]$htmlPath = '{0}\vulnerabilities.html' -f $basePath
 
 [string]$checkCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "XML"' -f $dcPath, $inputPath, $xmlPath
+[string]$artifactCommand = '{0} -a "VulnerabilityScan" -s "{1}" -o "{2}" -f "HTML"' -f $dcPath, $inputPath, $htmlPath
 [string]$deleteCommand = 'DEL {0}' -f $xmlPath
 
 Set-PSConsole
@@ -119,6 +121,8 @@ parseDependencies $dependencies
 Invoke-Expression $deleteCommand
 
 if (hasVulnerability $dependencies) {
+	Write-Output ("Vulnerability found -- generating report artifact: '{0}'" -f $htmlPath)
+	cmd.exe /C $artifactCommand
 	exit(1)
 } else {
 	exit(0)

@@ -66,8 +66,8 @@ set BASEDIR=%~dp0\..
 :repoSetup
 set REPO=
 
+if "%java%"=="" set java=TC_JAVA_PATH
 if "%JAVACMD%"=="" set JAVACMD=java
-if "%JAVACMD%"=="" set JAVACMD=TC_JAVA_PATH
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 

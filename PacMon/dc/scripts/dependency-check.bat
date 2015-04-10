@@ -65,7 +65,7 @@ set BASEDIR=%~dp0\..
 set REPO=
 
 
-if "%JAVACMD%"=="" set JAVACMD=JRE_HOME
+if "%JAVACMD%"=="" set JAVACMD=JAVA_EXE
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 
